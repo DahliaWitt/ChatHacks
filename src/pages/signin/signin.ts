@@ -37,6 +37,7 @@ export class SigninPage {
   }
 
   enterNickname() {
+  
     this.navCtrl.setRoot(RoomPage, {
       nickname: this.data.nickname
     });

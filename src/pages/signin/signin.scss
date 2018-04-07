@@ -1,4 +1,5 @@
 page-signin {
+<<<<<<< HEAD
   .login-logo {
     width: 75%;
     display: block;
@@ -8,4 +9,24 @@ page-signin {
   .scroll-content {
     background: url('https://i.pinimg.com/originals/c4/f6/1f/c4f61f49abd2d4fe24e6fc12acf15463.gif') !important;
   }
+=======
+  ion-content{
+    margin-left: 30%;
+  }
+  ion-list{
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    max-width: 30%;
+    min-height: 150px;
+
+  }
+  ion-item{
+    max-width: 99%;
+  }
+  button{
+    max-width: 100%;
+  }
+
+
+>>>>>>> ae6b6050afa273a14c5afa7955495ae3fe1d0243
 }
