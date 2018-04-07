@@ -14,6 +14,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { config } from '../environment';
+import { RelativeTime } from '../pipes/relative-time';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { config } from '../environment';
     HomePage,
     SigninPage,
     RoomPage,
-    AddRoomPage
+    AddRoomPage,
+    RelativeTime
   ],
   imports: [
     BrowserModule,

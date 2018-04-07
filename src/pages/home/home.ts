@@ -37,13 +37,14 @@ export class HomePage {
       this.chats = snapshotToArray(resp);
       setTimeout(() => {
         if (this.offStatus === false) {
-          this.content.scrollToBottom(300);
+          this.scrollToBottom();
         }
       }, 1000);
     });
   }
 
-  sendMessage() {
+  sendMessage($event?: Event) {
+    if ($event) $event.preventDefault();
     let newData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
     newData.set({
       type: this.data.type,
@@ -52,6 +53,19 @@ export class HomePage {
       sendDate: Date()
     });
     this.data.message = '';
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      if (this.content.scrollToBottom) {
+        this.content.scrollToBottom();
+      }
+    }, 400)
+  }
+
+  onFocus() {
+    this.content.resize();
+    this.scrollToBottom();
   }
 
   exitChat() {
