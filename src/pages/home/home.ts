@@ -29,7 +29,7 @@ export class HomePage {
     let joinData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
     joinData.set({
       type: 'join',
-      user: this.nickname,
+      user: this.user,
       message: this.nickname + joinMessages[Math.floor(Math.random() * joinMessages.length)],
       sendDate: Date()
     });
@@ -73,7 +73,7 @@ export class HomePage {
 
         newData.set({
           type: this.data.type,
-          user: this.data.nickname,
+          user: this.user,
           message: this.data.message,
           sendDate: Date()
         });
