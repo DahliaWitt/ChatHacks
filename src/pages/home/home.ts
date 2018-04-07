@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Content } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 import { RoomPage } from '../room/room';
 import * as firebase from 'Firebase';
 
@@ -12,22 +13,24 @@ export class HomePage {
   data = { type: '', nickname: '', message: '' };
   chats = [];
   roomkey: string;
+  user;
   nickname: string;
   offStatus: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
     this.roomkey = this.navParams.get("key") as string;
-    this.nickname = this.navParams.get("nickname") as string;
+    this.user = this.navParams.get("user");
+    this.nickname = this.user.displayName as string;
     this.data.type = 'message';
     this.data.nickname = this.nickname;
-    
+
     var joinMessages = new Array(" has joined the room.", " is here, RUN.", " has joined your party.", " is the new God.", " just joined. Hide your bananas.", ". Stay awhile and listen.", " appeared.", " just landed.", " just showed up, Take a shot.", " is public enemy number one.");
-    
+
     let joinData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
     joinData.set({
       type: 'join',
       user: this.nickname,
-      message: this.nickname + joinMessages[ Math.floor(Math.random() * joinMessages.length)],
+      message: this.nickname + joinMessages[Math.floor(Math.random() * joinMessages.length)],
       sendDate: Date()
     });
     this.data.message = '';
@@ -37,16 +40,25 @@ export class HomePage {
       this.chats = snapshotToArray(resp);
       setTimeout(() => {
         if (this.offStatus === false) {
-          this.content.scrollToBottom(300);
+          this.scrollToBottom();
         }
       }, 1000);
     });
   }
 
+  showToast(position: string, message: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      position: position
+    });
+    toast.present(toast);
+  }
+
   sendMessage() {
     //Make Easter Egg Arrays here
-      var messageCheck = new Array();
-      var respondArrat = new Array();
+    var messageCheck = new Array();
+    var respondArrat = new Array();
 
 
     //Grab the properties of the chatroom
@@ -57,14 +69,14 @@ export class HomePage {
         this.showToast("bottom", "Please keep your message under 1000 characters");
       } else {
 
-        
+
 
         newData.set({
-              type: this.data.type,
-              user: this.data.nickname,
-              message: this.data.message,
-              sendDate: Date()
-            });
+          type: this.data.type,
+          user: this.data.nickname,
+          message: this.data.message,
+          sendDate: Date()
+        });
         //Clear Message
         this.data.message = '';
       }
@@ -73,11 +85,24 @@ export class HomePage {
     }
   }
 
+  scrollToBottom() {
+    setTimeout(() => {
+      if (this.content.scrollToBottom) {
+        this.content.scrollToBottom();
+      }
+    }, 400)
+  }
+
+  onFocus() {
+    this.content.resize();
+    this.scrollToBottom();
+  }
+
   exitChat() {
     let exitData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
     exitData.set({
       type: 'exit',
-      user: this.nickname,
+      user: this.user,
       message: this.nickname + ' has exited this room.',
       sendDate: Date()
     });
@@ -85,7 +110,7 @@ export class HomePage {
     this.offStatus = true;
 
     this.navCtrl.setRoot(RoomPage, {
-      nickname: this.nickname
+      user: this.user
     });
   }
 

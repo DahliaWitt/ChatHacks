@@ -9,6 +9,12 @@ import { HomePage } from '../pages/home/home';
 import { AddRoomPage } from '../pages/add-room/add-room';
 import { SigninPage } from '../pages/signin/signin';
 import { RoomPage } from '../pages/room/room';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { GooglePlus } from '@ionic-native/google-plus';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { config } from '../environment';
+import { RelativeTime } from '../pipes/relative-time';
 
 @NgModule({
   declarations: [
@@ -16,10 +22,13 @@ import { RoomPage } from '../pages/room/room';
     HomePage,
     SigninPage,
     RoomPage,
-    AddRoomPage
+    AddRoomPage,
+    RelativeTime
   ],
   imports: [
     BrowserModule,
+    AngularFireModule.initializeApp(config),
+    AngularFireAuthModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -32,8 +41,10 @@ import { RoomPage } from '../pages/room/room';
   ],
   providers: [
     StatusBar,
+    GooglePlus,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    AuthServiceProvider
   ]
 })
 export class AppModule { }

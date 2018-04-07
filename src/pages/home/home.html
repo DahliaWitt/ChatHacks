@@ -1,17 +1,17 @@
 <ion-header>
   <ion-navbar>
+    <ion-buttons left>
+      <button ion-button icon-only (click)="exitChat()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>
       Ionic Firebase Chat
     </ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="exitChat()">
-        <ion-icon name="exit"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<!-- <ion-content>
   <ion-list>
     <ion-item *ngFor="let chat of chats" no-lines>
       <div class="chat-status" text-center *ngIf="chat.type==='join'||chat.type==='exit';else message">
@@ -36,9 +36,33 @@
       </ng-template>
     </ion-item>
   </ion-list>
+</ion-content> -->
+<ion-content>
+  <div class="message-wrap">
+    <div *ngFor="let chat of chats" class="message" [class.left]=" chat.user.displayName != nickname" [class.right]=" chat.user.displayName === nickname">
+      <div class="chat-status" text-center *ngIf="chat.type==='join'||chat.type==='exit';else message">
+        <span class="chat-date">{{chat.sendDate | relativeTime}}</span>
+        <span class="chat-content-center">{{chat.message}}</span>
+      </div>
+      <ng-template #message>
+        <img class="user-img" [src]="chat.user.photoURL" alt="">
+        <!-- <ion-spinner name="dots" *ngIf="chat.status === 'pending'"></ion-spinner> -->
+        <div class="msg-detail">
+          <div class="msg-info">
+            <p>
+              {{chat.user.displayName}}&nbsp;&nbsp;&nbsp;{{chat.sendDate | relativeTime}}</p>
+          </div>
+          <div class="msg-content">
+            <span class="triangle"></span>
+            <p class="line-breaker ">{{chat.message}}</p>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
 </ion-content>
 
-<ion-footer>
+<!-- <ion-footer>
   <ion-grid>
     <ion-row>
       <ion-col col-10>
@@ -49,4 +73,13 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+</ion-footer> -->
+<ion-footer no-border [style.height]="showEmojiPicker ? '255px' : '55px'">
+  <div class="input-wrap">
+    <ion-input #chat_input placeholder="Text Input" [(ngModel)]="data.message" (keyup.enter)="sendMessage($event)" (focusin)="onFocus()">
+    </ion-input>
+    <button ion-button clear icon-only item-right (click)="sendMessage()">
+      <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
+    </button>
+  </div>
 </ion-footer>
