@@ -31,7 +31,7 @@ export class RoomPage {
   joinRoom(key) {
     this.navCtrl.setRoot(HomePage, {
       key: key,
-      nickname: this.navParams.get("nickname")
+      user: this.navParams.get("user")
     });
   }
 }

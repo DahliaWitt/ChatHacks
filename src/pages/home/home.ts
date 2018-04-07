@@ -12,19 +12,21 @@ export class HomePage {
   data = { type: '', nickname: '', message: '' };
   chats = [];
   roomkey: string;
+  user;
   nickname: string;
   offStatus: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.roomkey = this.navParams.get("key") as string;
-    this.nickname = this.navParams.get("nickname") as string;
+    this.user = this.navParams.get("user");
+    this.nickname = this.user.displayName as string;
     this.data.type = 'message';
     this.data.nickname = this.nickname;
 
     let joinData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
     joinData.set({
       type: 'join',
-      user: this.nickname,
+      user: this.user,
       message: this.nickname + ' has joined this room.',
       sendDate: Date()
     });
@@ -45,7 +47,7 @@ export class HomePage {
     let newData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
     newData.set({
       type: this.data.type,
-      user: this.data.nickname,
+      user: this.user,
       message: this.data.message,
       sendDate: Date()
     });
@@ -56,7 +58,7 @@ export class HomePage {
     let exitData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
     exitData.set({
       type: 'exit',
-      user: this.nickname,
+      user: this.user,
       message: this.nickname + ' has exited this room.',
       sendDate: Date()
     });
@@ -64,7 +66,7 @@ export class HomePage {
     this.offStatus = true;
 
     this.navCtrl.setRoot(RoomPage, {
-      nickname: this.nickname
+      user: this.user
     });
   }
 
