@@ -14,6 +14,7 @@ export class RoomPage {
   ref = firebase.database().ref('chatrooms/');
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    console.log("This");
     this.ref.on('value', resp => {
       this.rooms = [];
       this.rooms = snapshotToArray(resp);

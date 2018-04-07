@@ -10,11 +10,11 @@
     <ion-list>
       <ion-item>
         <ion-label floating>Enter Room Name</ion-label>
-        <ion-input type="text" [(ngModel)]="data.roomname" name="roomname" required=""></ion-input>
+        <ion-input type="text" [(ngModel)]="data.roomname" name="roomname" required="" maxlength="50" ></ion-input>
       </ion-item>
       <ion-item>
         <button ion-button full round color="secondary" type="submit">Add</button>
       </ion-item>
-    </ion-list>
+    </ion-list> 
   </form>
 </ion-content>
