@@ -1,19 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the SigninPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { RoomPage } from '../room/room';
 
-@IonicPage()
 @Component({
   selector: 'page-signin',
   templateUrl: 'signin.html',
 })
 export class SigninPage {
+  data = { nickname: "" };
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -22,4 +17,9 @@ export class SigninPage {
     console.log('ionViewDidLoad SigninPage');
   }
 
+  enterNickname() {
+    this.navCtrl.setRoot(RoomPage, {
+      nickname: this.data.nickname
+    });
+  }
 }

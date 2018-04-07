@@ -6,12 +6,13 @@ import * as firebase from 'firebase';
 
 import { HomePage } from '../pages/home/home';
 import { config } from '../environment';
+import { SigninPage } from '../pages/signin/signin';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = HomePage;
+  rootPage: any = SigninPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
