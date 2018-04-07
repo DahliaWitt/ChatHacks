@@ -3,11 +3,11 @@ import { IonicPageModule } from 'ionic-angular';
 import { SigninPage } from './signin';
 
 @NgModule({
-  declarations: [
-    SigninPage,
-  ],
-  imports: [
-    IonicPageModule.forChild(SigninPage),
-  ],
+    declarations: [
+        SigninPage,
+    ],
+    imports: [
+        IonicPageModule.forChild(SigninPage),
+    ],
 })
-export class SigninPageModule {}
+export class SigninPageModule { }
