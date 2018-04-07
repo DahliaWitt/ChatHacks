@@ -24,4 +24,3 @@ export class MyApp {
     firebase.initializeApp(config);
   }
 }
-
