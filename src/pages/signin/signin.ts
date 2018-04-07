@@ -17,8 +17,6 @@ export class SigninPage {
     public auth: AuthServiceProvider) { }
 
   ionViewDidLoad() {
-    var audio = new Audio('https://ia801302.us.archive.org/21/items/THEMEOFSCOTLANDSCOTLANDFOREVERSCOTLANDREMIX/THEME_OF_SCOTLAND___SCOTLAND_FOREVER_SCOTLAND_REMIX.mp3');
-    audio.play();
   }
 
   async signin() {
