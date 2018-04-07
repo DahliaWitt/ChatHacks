@@ -54,7 +54,7 @@ export class AuthServiceProvider {
     this.afAuth.auth.signOut();
   }
 
-  getUser(): User {
+  getUser() {
     return this.afAuth.auth.currentUser;
   }
 

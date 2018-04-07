@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AddRoomPage } from '../add-room/add-room';
 import { HomePage } from '../home/home';
 import * as firebase from 'Firebase';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 @IonicPage()
 @Component({
@@ -12,8 +13,9 @@ import * as firebase from 'Firebase';
 export class RoomPage {
   rooms = [];
   ref = firebase.database().ref('chatrooms/');
+  user;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthServiceProvider) {
     this.ref.on('value', resp => {
       this.rooms = [];
       this.rooms = snapshotToArray(resp);
@@ -21,7 +23,12 @@ export class RoomPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RoomPage');
+    let fbUser = this.auth.getUser();
+    this.user = {
+      displayName: fbUser.displayName,
+      photoURL: fbUser.photoURL
+    }
+    console.log(this.user);
   }
 
   addRoom() {
@@ -31,7 +38,7 @@ export class RoomPage {
   joinRoom(key) {
     this.navCtrl.setRoot(HomePage, {
       key: key,
-      user: this.navParams.get("user")
+      user: this.user
     });
   }
 }

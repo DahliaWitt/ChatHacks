@@ -7,12 +7,13 @@ import * as firebase from 'firebase';
 import { HomePage } from '../pages/home/home';
 import { config } from '../environment';
 import { SigninPage } from '../pages/signin/signin';
+import { RoomPage } from '../pages/room/room';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = SigninPage;
+  rootPage: any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
@@ -20,6 +21,13 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          this.rootPage = RoomPage;
+        } else {
+          this.rootPage = SigninPage;
+        }
+      });
     });
     firebase.initializeApp(config);
   }
