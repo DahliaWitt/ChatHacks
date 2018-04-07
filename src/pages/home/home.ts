@@ -3,6 +3,8 @@ import { NavController, NavParams, Content } from 'ionic-angular';
 import { RoomPage } from '../room/room';
 import * as firebase from 'Firebase';
 
+import { ToastController } from 'ionic-angular';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -14,8 +16,7 @@ export class HomePage {
   roomkey: string;
   nickname: string;
   offStatus: boolean = false;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController ) {
     this.roomkey = this.navParams.get("key") as string;
     this.nickname = this.navParams.get("nickname") as string;
     this.data.type = 'message';
@@ -40,16 +41,37 @@ export class HomePage {
       }, 1000);
     });
   }
+  
+
+  showToast(position: string, message: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      position: position
+    });
+    toast.present(toast);
+  }
 
   sendMessage() {
+    //Grab the properties of the chatroom
     let newData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
-    newData.set({
-      type: this.data.type,
-      user: this.data.nickname,
-      message: this.data.message,
-      sendDate: Date()
-    });
-    this.data.message = '';
+    let userMessage = this.data.message;
+    if (userMessage) {
+      if (userMessage.length >= 1000) {
+        this.showToast("bottom", "Please keep your message under 1000 characters");
+      } else {
+        newData.set({
+              type: this.data.type,
+              user: this.data.nickname,
+              message: this.data.message,
+              sendDate: Date()
+            });
+        //Clear Message
+        this.data.message = '';
+      }
+    } else {
+      this.showToast("bottom", "Your message is empty!");
+    }
   }
 
   exitChat() {
