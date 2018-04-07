@@ -1,0 +1,14 @@
+export const config = {
+    
+apiKey: "AIzaSyCLBt5ZJefpvOQFxoWJI6SHWxvoAcRZO2c",
+    
+authDomain: "chat-hacks.firebaseapp.com",
+    
+databaseURL: "https://chat-hacks.firebaseio.com",
+    
+projectId: "chat-hacks",
+    
+storageBucket: "chat-hacks.appspot.com",
+
+    messagingSenderId: "671847211545"
+};
