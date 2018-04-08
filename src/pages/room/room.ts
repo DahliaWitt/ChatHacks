@@ -25,6 +25,7 @@ export class RoomPage {
     public auth: AuthServiceProvider,
     public locationServices: LocationServicesProvider,
     public toast: ToastController) {
+    this.getLocation();
   }
 
   ionViewDidLoad() {
@@ -35,32 +36,37 @@ export class RoomPage {
     }
   }
 
-  getLocation() {
-    this.loading = true;
-    this.locationServices.getLocation().then((data) => {
-      var geoQuery = this.geoFire.query({
-        center: [data.coords.latitude, data.coords.longitude],
-        radius: 0.1 // 0.1 km or 100 meters
+  getLocation(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.loading = true;
+      this.rooms = [];
+      this.locationServices.getLocation().then((data) => {
+        var geoQuery = this.geoFire.query({
+          center: [data.coords.latitude, data.coords.longitude],
+          radius: 0.1 // 0.1 km or 100 meters
+        });
+        geoQuery.on("key_entered", (key, location, distance) => {
+          console.log(key + " entered query at " + location + " (" + distance + " km from center)");
+          this.ref.child(key)
+            .once('value')
+            .then((snapshot) => {
+              var value = snapshot.val();
+              this.rooms = this.rooms.concat(snapshotToArray([snapshot]));
+              this.loading = false;
+              resolve(true);
+            })
+        });
+      }).catch(err => {
+        this.loading = false;
+        reject(err);
+        console.error(err);
       });
-      geoQuery.on("key_entered", (key, location, distance) => {
-        console.log(key + " entered query at " + location + " (" + distance + " km from center)");
-        this.ref.child(key)
-          .once('value')
-          .then((snapshot) => {
-            var value = snapshot.val();
-            this.rooms = this.rooms.concat(snapshotToArray([snapshot]));
-            this.loading = false;
-          })
-      });
+    })
+  }
 
-      let toast = this.toast.create({
-        message: 'location sent to NSA: ' + data.coords.latitude + " " + data.coords.longitude,
-        duration: 3000,
-        position: 'bottom'
-      });
-      toast.present();
-    }).catch(err => {
-      console.error(err);
+  doRefresh(refresher) {
+    this.getLocation().then(() => {
+      refresher.complete();
     });
   }
 
