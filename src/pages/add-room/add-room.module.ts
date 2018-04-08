@@ -10,4 +10,9 @@ import { AddRoomPage } from './add-room';
     IonicPageModule.forChild(AddRoomPage),
   ],
 })
-export class AddRoomPageModule {}
+export class AddRoomPageModule {
+  
+
+
+}
+
