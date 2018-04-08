@@ -9,11 +9,18 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <button ion-button (click)="getLocation()">
-    wya
-  </button>
-  <ion-list>
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="seal" *ngIf="loading">
+    <img src="http://i0.kym-cdn.com/photos/images/newsfeed/000/927/765/d50.gif">
+    <h3>Loading...</h3>
+    <p>I hope our loading gif gets your
+      <i>seal</i> of approval.</p>
+  </div>
+  <ion-list *ngIf="!loading">
     <a ion-item *ngFor="let room of rooms" (click)="joinRoom(room)">
       {{room.roomname}}
       <!-- <ion-icon name="arrow-forward" item-end></ion-icon> -->

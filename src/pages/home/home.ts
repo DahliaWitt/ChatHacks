@@ -95,8 +95,8 @@ export class HomePage {
 
   scrollToBottom() {
     setTimeout(() => {
-      if (this.content.scrollToBottom) {
-        this.content.scrollToBottom(0);
+      if (this.content) {
+        this.content.scrollToBottom();
       }
     }, 400)
   }
@@ -114,7 +114,7 @@ export class HomePage {
     exitData.set({
       type: 'exit',
       user: this.user,
-      message: this.nickname +  leaveMessages[Math.floor(Math.random() * leaveMessages.length)],
+      message: this.nickname + leaveMessages[Math.floor(Math.random() * leaveMessages.length)],
       sendDate: Date()
     });
 

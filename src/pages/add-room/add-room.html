@@ -1,12 +1,18 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>AddRoom</ion-title>
+    <ion-title>Add Room</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-  <form (ngSubmit)="addRoom()">
+  <div class="seal" *ngIf="loading">
+    <img src="http://i0.kym-cdn.com/photos/images/newsfeed/000/927/765/d50.gif">
+    <h3>Loading...</h3>
+    <p>I hope our loading gif gets your
+      <i>seal</i> of approval.</p>
+  </div>
+  <form (ngSubmit)="addRoom()" *ngIf="!loading">
     <ion-list>
       <ion-item>
         <ion-label floating>Enter Room Name</ion-label>

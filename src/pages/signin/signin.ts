@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 
 import { RoomPage } from '../room/room';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { database } from 'firebase/app';
 
 @Component({
   selector: 'page-signin',
@@ -21,8 +22,8 @@ export class SigninPage {
 
   async signin() {
     this.auth.googleLogin().then((data) => {
+      console.log(data);
       let user = data.user;
-      console.log(user);
       this.navCtrl.setRoot(RoomPage, {
         user: {
           displayName: user.displayName,
@@ -35,7 +36,7 @@ export class SigninPage {
   }
 
   enterNickname() {
-  
+
     this.navCtrl.setRoot(RoomPage, {
       nickname: this.data.nickname
     });
