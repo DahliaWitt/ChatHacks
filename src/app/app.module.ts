@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { AddRoomPage } from '../pages/add-room/add-room';
 import { SigninPage } from '../pages/signin/signin';
 import { RoomPage } from '../pages/room/room';
+import { TabsPage } from '../pages/tabs/tabs';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { AngularFireModule } from 'angularfire2';
@@ -23,6 +24,7 @@ import { RelativeTime } from '../pipes/relative-time';
     SigninPage,
     RoomPage,
     AddRoomPage,
+    TabsPage,
     RelativeTime
   ],
   imports: [
@@ -37,6 +39,7 @@ import { RelativeTime } from '../pipes/relative-time';
     HomePage,
     SigninPage,
     RoomPage,
+    TabsPage,
     AddRoomPage
   ],
   providers: [

@@ -3,11 +3,11 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import * as firebase from 'firebase';
+import { config } from '../environment';
 
 import { HomePage } from '../pages/home/home';
-import { config } from '../environment';
 import { SigninPage } from '../pages/signin/signin';
-import { RoomPage } from '../pages/room/room';
+import { TabsPage } from '../pages/tabs/tabs';
 
 @Component({
   templateUrl: 'app.html'
@@ -23,7 +23,7 @@ export class MyApp {
       splashScreen.hide();
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
-          this.rootPage = RoomPage;
+          this.rootPage = TabsPage;
         } else {
           this.rootPage = SigninPage;
         }
