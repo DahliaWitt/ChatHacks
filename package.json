@@ -1,5 +1,5 @@
 {
-  "name": "ChatHacks",
+  "name": "chathacks",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
@@ -22,6 +22,7 @@
     "@angular/platform-browser": "5.2.9",
     "@angular/platform-browser-dynamic": "5.2.9",
     "@ionic-native/core": "4.6.0",
+    "@ionic-native/geolocation": "^4.6.0",
     "@ionic-native/google-plus": "^4.6.0",
     "@ionic-native/splash-screen": "4.6.0",
     "@ionic-native/status-bar": "4.6.0",
@@ -29,6 +30,7 @@
     "angularfire2": "^5.0.0-rc.6",
     "cordova-ios": "4.5.4",
     "cordova-plugin-device": "^2.0.1",
+    "cordova-plugin-geolocation": "^4.0.1",
     "cordova-plugin-googleplus": "^5.2.3",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.1.19",
@@ -57,6 +59,9 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-googleplus": {
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.671847211545-fen6vlh670vetc9ofgupm41tfm0g42e8"
+      },
+      "cordova-plugin-geolocation": {
+        "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
       }
     },
     "platforms": [

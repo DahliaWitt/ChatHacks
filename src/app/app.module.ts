@@ -15,6 +15,8 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { config } from '../environment';
 import { RelativeTime } from '../pipes/relative-time';
+import { LocationServicesProvider } from '../providers/location-services/location-services';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
   declarations: [
@@ -43,8 +45,10 @@ import { RelativeTime } from '../pipes/relative-time';
     StatusBar,
     GooglePlus,
     SplashScreen,
+    Geolocation,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    AuthServiceProvider
+    AuthServiceProvider,
+    LocationServicesProvider
   ]
 })
 export class AppModule { }

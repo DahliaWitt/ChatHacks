@@ -10,6 +10,9 @@
 </ion-header>
 
 <ion-content padding>
+  <button ion-button (click)="getLocation()">
+    wya
+  </button>
   <ion-list>
     <a ion-item *ngFor="let room of rooms" (click)="joinRoom(room)">
       {{room.roomname}}
