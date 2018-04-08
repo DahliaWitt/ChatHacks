@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, App } from 'ionic-angular';
 import { AddRoomPage } from '../add-room/add-room';
 import { HomePage } from '../home/home';
 import * as firebase from 'Firebase';
 import * as GeoFire from 'geofire';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { LocationServicesProvider } from '../../providers/location-services/location-services';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'page-room',
@@ -18,22 +19,29 @@ export class RoomPage {
   geoFire = new GeoFire(this.geoRef);
   user;
   loading = false;
+  showDelete = false;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public auth: AuthServiceProvider,
     public locationServices: LocationServicesProvider,
-    public toast: ToastController) {
+    public toast: ToastController,
+    public app: App) {
+    console.log(this.navCtrl.parent);
+
     this.getLocation();
+
+    this.auth.getUser().subscribe((fbUser) => {
+      this.user = {
+        displayName: fbUser.displayName,
+        photoURL: fbUser.photoURL
+      }
+    });
   }
 
   ionViewDidLoad() {
-    let fbUser = this.auth.getUser();
-    this.user = {
-      displayName: fbUser.displayName,
-      photoURL: fbUser.photoURL
-    }
+
   }
 
   getLocation(): Promise<any> {
@@ -70,16 +78,41 @@ export class RoomPage {
     });
   }
 
+  toggleDelete() {
+    this.showDelete = !this.showDelete;
+    if (this.showDelete) {
+      let toast = this.toast.create({
+        message: 'Note: Delete only works on chatrooms you\'ve created.',
+        duration: 3000,
+        position: 'bottom'
+      });
+      toast.present();
+    }
+  }
+
   addRoom() {
     this.navCtrl.push(AddRoomPage);
   }
 
+  deleteRoom(room, index, $event) {
+    $event.stopPropagation();
+    this.rooms.splice(this.rooms.indexOf(room), 1);
+    this.ref.child(room.key).remove();
+    this.geoRef.child(room.key).remove();
+    this.toggleDelete();
+  }
+
   joinRoom(room) {
-    this.navCtrl.setRoot(HomePage, {
+    this.app.getRootNav().push(HomePage, {
       key: room.key,
       roomname: room.roomname,
       user: this.user
     });
+    // this.navCtrl.push(HomePage, {
+    //   key: room.key,
+    //   roomname: room.roomname,
+    //   user: this.user
+    // });
   }
 }
 

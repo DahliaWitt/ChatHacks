@@ -50,12 +50,13 @@ export class AuthServiceProvider {
     }
   }
 
-  signOut() {
-    this.afAuth.auth.signOut();
+  signOut(): Promise<any> {
+    return this.afAuth.auth.signOut();
   }
 
   getUser() {
-    return this.afAuth.auth.currentUser;
+    return this.afAuth.authState;
+    // return this.afAuth.auth.currentUser;
   }
 
   isLoggedIn(): Observable<boolean> {

@@ -12,15 +12,19 @@
     <p>I hope our loading gif gets your
       <i>seal</i> of approval.</p>
   </div>
-  <form (ngSubmit)="addRoom()" *ngIf="!loading">
-    <ion-list>
-      <ion-item>
-        <ion-label floating>Enter Room Name</ion-label>
-        <ion-input type="text" id="roomName" [(ngModel)]="data.roomname" name="roomname" required="" maxlength="50" minlength="0" ></ion-input>
-      </ion-item>
-      <ion-item>
-        <button id= "SubAddRoom" ion-button full round color="secondary"  type="submit">Add</button>
-      </ion-item>
-    </ion-list>
-  </form>
+  <ion-card>
+    <ion-card-content>
+      <form (ngSubmit)="addRoom()" *ngIf="!loading">
+        <ion-list>
+          <ion-item>
+            <ion-label floating>Enter Room Name</ion-label>
+            <ion-input type="text" id="roomName" [(ngModel)]="data.roomname" name="roomname" required="" maxlength="50" minlength="0"></ion-input>
+          </ion-item>
+          <ion-item>
+            <button id="SubAddRoom" ion-button full round color="secondary" type="submit">Add</button>
+          </ion-item>
+        </ion-list>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

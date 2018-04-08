@@ -2,8 +2,8 @@
   <ion-navbar>
     <ion-title>Rooms</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only (click)="addRoom()">
-        <ion-icon name="add-circle"></ion-icon>
+      <button ion-button icon-only (click)="toggleDelete()">
+        <ion-icon name="remove-circle"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -21,9 +21,9 @@
       <i>seal</i> of approval.</p>
   </div>
   <ion-list *ngIf="!loading">
-    <a ion-item *ngFor="let room of rooms" (click)="joinRoom(room)">
+    <button ion-item *ngFor="let room of rooms; let i = index" (click)="joinRoom(room)">
+      <button ion-button item-left (click)="deleteRoom(room, i, $event)" *ngIf="showDelete">Delete</button>
       {{room.roomname}}
-      <!-- <ion-icon name="arrow-forward" item-end></ion-icon> -->
-    </a>
+    </button>
   </ion-list>
 </ion-content>

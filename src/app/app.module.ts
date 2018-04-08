@@ -18,6 +18,7 @@ import { config } from '../environment';
 import { RelativeTime } from '../pipes/relative-time';
 import { LocationServicesProvider } from '../providers/location-services/location-services';
 import { Geolocation } from '@ionic-native/geolocation';
+import { AccountInfoPage } from '../pages/account-info/account-info';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     RoomPage,
     AddRoomPage,
     TabsPage,
-    RelativeTime
+    RelativeTime,
+    AccountInfoPage
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     SigninPage,
     RoomPage,
     TabsPage,
-    AddRoomPage
+    AddRoomPage,
+    AccountInfoPage
   ],
   providers: [
     StatusBar,
