@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import * as firebase from 'Firebase';
+import * as GeoFire from 'geofire';
+import { LocationServicesProvider } from '../../providers/location-services/location-services';
+
 
 @IonicPage()
 @Component({
@@ -9,21 +12,36 @@ import * as firebase from 'Firebase';
 })
 export class AddRoomPage {
   data = { roomname: '' };
-  ref = firebase.database().ref('chatrooms/');
+  dataRef = firebase.database().ref('chatrooms/');
+  geoRef = firebase.database().ref('geo/');
+  loading = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public locationServices: LocationServicesProvider) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AddRoomPage');
-  }
+  ionViewDidLoad() { }
 
   addRoom() {
-    let newData = this.ref.push();
+    this.loading = true;
+    let newData = this.dataRef.push();
     newData.set({
       roomname: this.data.roomname
     });
-    this.navCtrl.pop();
+    this.locationServices.getLocation().then((data) => {
+      let geoFire = new GeoFire(this.geoRef);
+      let geoRef = geoFire.ref;
+      geoFire.set(newData.key, [data.coords.latitude, data.coords.longitude]).then(() => {
+        this.navCtrl.pop();
+        this.loading = false;
+      }).catch(function (err) {
+        console.error(err);
+        this.loading = false;
+      });
+    }).catch(err => {
+      console.error(err);
+      this.loading = false;
+    });
+
   }
 
 }

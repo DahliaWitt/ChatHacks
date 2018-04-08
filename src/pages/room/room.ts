@@ -3,6 +3,7 @@ import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { AddRoomPage } from '../add-room/add-room';
 import { HomePage } from '../home/home';
 import * as firebase from 'Firebase';
+import * as GeoFire from 'geofire';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { LocationServicesProvider } from '../../providers/location-services/location-services';
 
@@ -13,17 +14,17 @@ import { LocationServicesProvider } from '../../providers/location-services/loca
 export class RoomPage {
   rooms = [];
   ref = firebase.database().ref('chatrooms/');
+  geoRef = firebase.database().ref('geo/')
+  geoFire = new GeoFire(this.geoRef);
   user;
+  loading = false;
 
-  constructor(public navCtrl: NavController,
+  constructor(
+    public navCtrl: NavController,
     public navParams: NavParams,
     public auth: AuthServiceProvider,
     public locationServices: LocationServicesProvider,
     public toast: ToastController) {
-    this.ref.on('value', resp => {
-      this.rooms = [];
-      this.rooms = snapshotToArray(resp);
-    });
   }
 
   ionViewDidLoad() {
@@ -32,13 +33,26 @@ export class RoomPage {
       displayName: fbUser.displayName,
       photoURL: fbUser.photoURL
     }
-    console.log(this.user);
   }
 
   getLocation() {
-    console.log('start')
+    this.loading = true;
     this.locationServices.getLocation().then((data) => {
-      console.log('tehn');
+      var geoQuery = this.geoFire.query({
+        center: [data.coords.latitude, data.coords.longitude],
+        radius: 0.1 // 0.1 km or 100 meters
+      });
+      geoQuery.on("key_entered", (key, location, distance) => {
+        console.log(key + " entered query at " + location + " (" + distance + " km from center)");
+        this.ref.child(key)
+          .once('value')
+          .then((snapshot) => {
+            var value = snapshot.val();
+            this.rooms = this.rooms.concat(snapshotToArray([snapshot]));
+            this.loading = false;
+          })
+      });
+
       let toast = this.toast.create({
         message: 'location sent to NSA: ' + data.coords.latitude + " " + data.coords.longitude,
         duration: 3000,
