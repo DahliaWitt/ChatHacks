@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { AddRoomPage } from '../add-room/add-room';
 import { HomePage } from '../home/home';
 import * as firebase from 'Firebase';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { LocationServicesProvider } from '../../providers/location-services/location-services';
 
 @Component({
   selector: 'page-room',
@@ -14,7 +15,11 @@ export class RoomPage {
   ref = firebase.database().ref('chatrooms/');
   user;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthServiceProvider) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public auth: AuthServiceProvider,
+    public locationServices: LocationServicesProvider,
+    public toast: ToastController) {
     this.ref.on('value', resp => {
       this.rooms = [];
       this.rooms = snapshotToArray(resp);
@@ -28,6 +33,21 @@ export class RoomPage {
       photoURL: fbUser.photoURL
     }
     console.log(this.user);
+  }
+
+  getLocation() {
+    console.log('start')
+    this.locationServices.getLocation().then((data) => {
+      console.log('tehn');
+      let toast = this.toast.create({
+        message: 'location sent to NSA: ' + data.coords.latitude + " " + data.coords.longitude,
+        duration: 3000,
+        position: 'bottom'
+      });
+      toast.present();
+    }).catch(err => {
+      console.error(err);
+    });
   }
 
   addRoom() {
