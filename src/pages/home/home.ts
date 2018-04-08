@@ -96,7 +96,7 @@ export class HomePage {
   scrollToBottom() {
     setTimeout(() => {
       if (this.content.scrollToBottom) {
-        this.content.scrollToBottom();
+        this.content.scrollToBottom(0);
       }
     }, 400)
   }
@@ -107,11 +107,14 @@ export class HomePage {
   }
 
   exitChat() {
+    var leaveMessages = new Array(" has left the battle.", " gave up and left.", "has quit.", "? Leaving so soon?", " says goodbye.", " decided you weren't worth their time.", " couldn't handle it anymore.");
+
+
     let exitData = firebase.database().ref('chatrooms/' + this.roomkey + '/chats').push();
     exitData.set({
       type: 'exit',
       user: this.user,
-      message: this.nickname + ' has exited this room.',
+      message: this.nickname +  leaveMessages[Math.floor(Math.random() * leaveMessages.length)],
       sendDate: Date()
     });
 
