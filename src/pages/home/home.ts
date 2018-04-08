@@ -96,7 +96,7 @@ export class HomePage {
   scrollToBottom() {
     setTimeout(() => {
       if (this.content.scrollToBottom) {
-        this.content.scrollToBottom();
+        this.content.scrollToBottom(0);
       }
     }, 400)
   }
