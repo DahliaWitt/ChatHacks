@@ -13,12 +13,14 @@ export class HomePage {
   data = { type: '', nickname: '', message: '' };
   chats = [];
   roomkey: string;
+  roomname: string;
   user;
   nickname: string;
   offStatus: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
     this.roomkey = this.navParams.get("key") as string;
+    this.roomname = this.navParams.get("roomname") as string;
     this.user = this.navParams.get("user");
     this.nickname = this.user.displayName as string;
     this.data.type = 'message';
@@ -68,9 +70,15 @@ export class HomePage {
       if (userMessage.length >= 1000) {
         this.showToast("bottom", "Please keep your message under 1000 characters");
       } else {
-
-
-
+        if (userMessage == "SCOTLAND FOREVER") {
+          /** 
+           * SCOTLAND FOREVER (SCOTLAND REMIX)
+           */
+          var audio = new Audio('https://ia801302.us.archive.org/21/items/THEMEOFSCOTLANDSCOTLANDFOREVERSCOTLANDREMIX/THEME_OF_SCOTLAND___SCOTLAND_FOREVER_SCOTLAND_REMIX.mp3');
+          audio.play();
+          var x: any = document.getElementsByClassName("scroll-content")[0];
+          x.style.backgroundImage = "url('http://bestanimations.com/Flags/Europe/Western/UK/scottish-flag-waving-gif-animation-5.gif')";
+        }
         newData.set({
           type: this.data.type,
           user: this.user,

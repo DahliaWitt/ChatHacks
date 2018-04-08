@@ -34,9 +34,10 @@ export class RoomPage {
     this.navCtrl.push(AddRoomPage);
   }
 
-  joinRoom(key) {
+  joinRoom(room) {
     this.navCtrl.setRoot(HomePage, {
-      key: key,
+      key: room.key,
+      roomname: room.roomname,
       user: this.user
     });
   }
